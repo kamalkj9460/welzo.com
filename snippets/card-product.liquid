@@ -14,7 +14,10 @@
     {% render 'card-product', show_vendor: section.settings.show_vendor %}
 {% endcomment %}
 
-{{ 'component-rating.aio.min.css' | asset_url | stylesheet_tag }}
+{% unless template contains "index" or template contains "collection" or template contains "product"  %}
+    <style>.rating{display:inline-block;margin:0}.product .rating-star{--letter-spacing:0.8;--font-size:1.7}.card-wrapper .rating-star{--letter-spacing:0.7;--font-size:1.4}.rating-star{--percent:calc( ( var(--rating) / var(--rating-max) + var(--rating-decimal) * var(--font-size) / (var(--rating-max) * (var(--letter-spacing) + var(--font-size))) ) * 100% );letter-spacing:calc(var(--letter-spacing) * 1rem);font-size:calc(var(--font-size) * 1rem);line-height:1;display:inline-block;font-family:Times;margin:0}.rating-star::before{content:'â˜…â˜…â˜…â˜…â˜…';background:linear-gradient(90deg,var(--color-icon) var(--percent),rgba(var(--color-foreground),.15) var(--percent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.rating-text{display:none}.rating-count{display:inline-block;margin:0}@media (forced-colors:active){.rating{display:none}.rating-text{display:block}}</style>
+{% endunless %} 
+<link rel="stylesheet" data-href="{{ 'component-rating.aio.min.css' | asset_url }}">
 
 {%- if card_product and card_product != empty -%}
   {%- liquid
@@ -42,14 +45,15 @@
           <div class="card__media" style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;">
             <div class="media media--transparent media--hover-effect">
               <img loading="lazy"
-                srcset="{%- if card_product.featured_media.width >= 165 -%}{{ card_product.featured_media | img_url: '165x' }} 165w,{%- endif -%}
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" data-class="LazyLoad"
+                data-srcset="{%- if card_product.featured_media.width >= 165 -%}{{ card_product.featured_media | img_url: '165x' }} 165w,{%- endif -%}
                   {%- if card_product.featured_media.width >= 360 -%}{{ card_product.featured_media | img_url: '360x' }} 360w,{%- endif -%}
                   {%- if card_product.featured_media.width >= 533 -%}{{ card_product.featured_media | img_url: '533x' }} 533w,{%- endif -%}
                   {%- if card_product.featured_media.width >= 720 -%}{{ card_product.featured_media | img_url: '720x' }} 720w,{%- endif -%}
                   {%- if card_product.featured_media.width >= 940 -%}{{ card_product.featured_media | img_url: '940x' }} 940w,{%- endif -%}
                   {%- if card_product.featured_media.width >= 1066 -%}{{ card_product.featured_media | img_url: '1066x' }} 1066w,{%- endif -%}
                   {{ card_product.featured_media | img_url: 'master' }} {{ card_product.featured_media.width }}w"
-                src="{{ card_product.featured_media | img_url: '533x' }}"
+                data-src="{{ card_product.featured_media | img_url: '533x' }}"
                 sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
                 alt="{{ card_product.featured_media.alt | escape }}"
                 class="motion-reduce"
@@ -60,14 +64,15 @@
 
               {%- if card_product.media[1] != nil and show_secondary_image -%}
                 <img loading="lazy"
-                  srcset="{%- if card_product.media[1].width >= 165 -%}{{ card_product.media[1] | img_url: '165x' }} 165w,{%- endif -%}
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" data-class="LazyLoad"  
+                  data-srcset="{%- if card_product.media[1].width >= 165 -%}{{ card_product.media[1] | img_url: '165x' }} 165w,{%- endif -%}
                     {%- if card_product.media[1].width >= 360 -%}{{ card_product.media[1] | img_url: '360x' }} 360w,{%- endif -%}
                     {%- if card_product.media[1].width >= 533 -%}{{ card_product.media[1] | img_url: '533x' }} 533w,{%- endif -%}
                     {%- if card_product.media[1].width >= 720 -%}{{ card_product.media[1] | img_url: '720x' }} 720w,{%- endif -%}
                     {%- if card_product.media[1].width >= 940 -%}{{ card_product.media[1] | img_url: '940x' }} 940w,{%- endif -%}
                     {%- if card_product.media[1].width >= 1066 -%}{{ card_product.media[1] | img_url: '1066x' }} 1066w,{%- endif -%}
                     {{ card_product.media[1] | img_url: 'master' }} {{ card_product.media[1].width }}w"
-                  src="{{ card_product.media[1] | img_url: '533x' }}"
+                  data-src="{{ card_product.media[1] | img_url: '533x' }}"
                   sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
                   alt="{{ card_product.media[1].alt | escape }}"
                   class="motion-reduce"
